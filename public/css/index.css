@@ -1,0 +1,73 @@
+.cox {
+    position: fixed;
+    top: 0px;
+    right: 0px;
+    z-index: 5;
+    background-color: #000;
+    width: 100px;
+    height: 200px;
+}
+.layui-nav {
+    width: 300px;
+    height: 60px;
+    position: fixed;
+    background-color: transparent;
+    top: 1vw;
+    right: 6vh;
+    z-index: 2;
+}
+.layui-nav-item {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 0 9px #868686;
+}
+.layui-nav-item img {
+    border-radius: 5px;
+    width: 45px;
+    height: 45px;
+    /* box-shadow: 0 0 9px #868686; */
+}
+.layui-nav-bar {
+    background-color: transparent;
+}
+
+.layui-nav-item .name {
+    color: #000;
+}
+
+.layui-nav .layui-nav-more {
+    border-top-color: rgba(9, 9, 9, 0.7);
+}
+.layui-layer-content{
+    padding: 20px;
+    background-color: #fff;
+}
+.layui-btn{
+	background-image: -webkit-linear-gradient(45deg,
+	#00ffb9,
+	#71ebff);
+}
+.layui-btn-normal{
+    background-image: -webkit-linear-gradient(45deg,
+	#1e9fff ,
+	#cfb4f3);   
+}
+
+.layui-btn-danger{
+    background-image: -webkit-linear-gradient(45deg,
+	#ff5823,
+	#ea9999);   
+}
+/* #1e9fff */
+.file-name{
+    width: 100px !important;
+    overflow: hidden;
+text-overflow:ellipsis;
+white-space: nowrap;
+}
+.gaode-url{
+    font-weight: bold;font-family: helvetica;text-align:center;background: -webkit-linear-gradient(left,skyblue ,hotpink); -webkit-background-clip: text; -webkit-text-fill-color: transparent;#23966c, #faaa54, #e23b4a, #db0768, #360670
+}
+.layui-input{
+    margin: 10px 0 10px 0;
+}

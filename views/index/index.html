@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+	<title><?  echo $_SESSION['name']?> | 照片记录美好生活</title>
+	<meta charset="utf-8" />
+	<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+	<!-- <meta property="og:image" content="route.png" /> -->
+	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
+	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon"/>
+	<link rel="stylesheet" href="/js/leaflet/leaflet.css" />
+	<link rel="stylesheet" href="/js/cluster/MarkerCluster.css" />
+	<link rel="stylesheet" href="/css/Leaflet.Photo.css" />
+	<link rel="stylesheet" href="/css/map.css" />
+	<link rel="stylesheet" href="/layui/css/layui.css">
+	<link rel="stylesheet" href="/css/index.css" />
+</head>
+<body>
+	<ul class="layui-nav">
+		<li class="layui-nav-item">
+			<a href="javascript:;"><img src="<?echo $_SESSION['avatar']?>" class="layui-nav-img">
+				<span class="name">
+					<?echo $_SESSION['name']?>
+				</span>
+			</a>
+			<dl class="layui-nav-child">
+				<dd><a href="javascript:;" onclick="addPhoto()">
+						<i class="layui-icon layui-icon-picture" style="font-size:20px;"> </i>
+						&nbsp;添加图片
+					</a></dd>
+				<!-- <dd><a href="javascript:;">安全管理</a></dd> -->
+				<dd><a href="/user💕out">退了</a></dd>
+			</dl>
+		</li>
+	</ul>
+	
+	<div id="map"></div>
+	<script src="/js/reqwest.min.js"></script>
+	<script src="/js/leaflet/leaflet.js"></script>
+	<script src="/js/chinesetmsproviders.js"></script>
+	<script src="/js/cluster/leaflet.markercluster.js"></script>
+	<script src="/js/Leaflet.Photo.js"></script>
+	<script src="https://cdn.bootcss.com/jquery/3.2.1/jquery.js"></script>
+	<script src="/layui/layui.js"></script>
+	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
+	<script>
+		var data = <? echo $files ?>
+	</script>
+	<script src="/js/index.js"></script>
+</body>
+</html>
