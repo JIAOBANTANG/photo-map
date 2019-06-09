@@ -53,9 +53,11 @@ php -S localhost:9999 -t public
 ~~~
 
 ### 部署
-1. 修改配置文件里的二级路由小心心
-2. 修改php.ini
+1. 安装或开启EXIF扩展
+2. 修改配置文件里的二级路由小心心
+3. 修改php.ini
 >open_basedir =/站点路径/photo-map/:/tmp/
+4. 为public/photos和public/temp设置777 权限
 
 ### 欢迎添砖加瓦
 
