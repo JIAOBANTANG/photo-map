@@ -2,9 +2,9 @@
 return [
     'db'=>[
         'host'=>'127.0.0.1',
-        'dbname'=>'map',
-        'user'=>'root',
-        'password'=>'123456',
+        'dbname'=>'',
+        'user'=>'',
+        'password'=>'',
         'charset'=>'utf8'
     ],
     'redis'=>[
@@ -13,13 +13,13 @@ return [
         'port'=>6379
     ],
     //高德地图webKey
-    'map-key'=>'d2fa68abf1fcdfd76f65dfce6274ff6c',
+    'map-key'=>'',
     //盐
-    'encryption_value'=>'map_invitation_code',
+    'encryption_value'=>'',
     //加盐
-    'encryption_key'=>'d441d33a65d31dbf0a8016a85c71a5b3',
+    'encryption_key'=>'',
     //验证盐
-    'encryption_value_code'=>'CVVEbg1dRQhCVBBaXgo9BV8FXQ',
+    'encryption_value_code'=>'',
     // DVpCWBBSRwhZWztQXgAH
     'domain'=>'http://photo.treelo.xin/',
     //二级路由小心心  win：'💕' liunx:'%F0%9F%92%95'
