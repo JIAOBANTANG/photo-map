@@ -17,6 +17,7 @@ class IndexController{
                 $_SESSION['avatar']=$userinfo['u_avatar'];
                 $file = new File;
             $data = $file->getFiles($_SESSION['id']);
+            // dd($data);
             $rows = count($data);
             foreach($data as $v=>$k){
                 $data[$v]['lat']=floatval($data[$v]['lat']);
@@ -106,6 +107,23 @@ class IndexController{
             echo $files;
         }else{
             redirect('/user💕login');
+        }
+    }
+    public function delete(){
+        $data = json_decode(file_get_contents("php://input"),1);
+        $fid = $data['fid'];
+        $file = new File;
+        $status = $file->del($fid);
+        if($status){
+            echo json_encode([
+                'code'=>2000,
+                'msg'=>'删除成功',
+            ]);  
+        }else{
+            echo json_encode([
+                'code'=>4000,
+                'msg'=>'文件不存在,或已删除',
+            ]);  
         }
     }
 }

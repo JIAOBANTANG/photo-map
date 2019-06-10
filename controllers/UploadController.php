@@ -27,7 +27,7 @@ class UploadController{
                      $isRename =   rename($saveDir,$url);
                      if($isRename){
                          $upload = new Upload;
-                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES(1,'$lngs','$lats','$url','$time','$towncode', '$address')";
+                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES(1,'$lng','$lat','$url','$time','$towncode', '$address')";
                          $isUp = $upload->insert($sql);
                          if($isUp){
                              echo json_encode([

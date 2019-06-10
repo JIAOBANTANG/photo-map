@@ -2,7 +2,7 @@
 <html>
 
 <head>
-	<title><?  echo $_SESSION['name']?> | 照片记录美好生活</title>
+	<title><?php  echo $_SESSION['name']?> | 照片记录美好生活</title>
 	<meta charset="utf-8" />
 	<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
 	<!-- <meta property="og:image" content="route.png" /> -->
@@ -18,9 +18,9 @@
 <body>
 	<ul class="layui-nav">
 		<li class="layui-nav-item">
-			<a href="javascript:;"><img src="<?echo $_SESSION['avatar']?>" class="layui-nav-img">
+			<a href="javascript:;"><img src="<?php  echo $_SESSION['avatar']?>" class="layui-nav-img">
 				<span class="name">
-					<?echo $_SESSION['name']?>
+					<?php echo $_SESSION['name']?>
 				</span>
 			</a>
 			<dl class="layui-nav-child">
@@ -44,7 +44,7 @@
 	<script src="/layui/layui.js"></script>
 	<script src="https://unpkg.com/axios/dist/axios.min.js"></script>
 	<script>
-		var data = <? echo $files ?>
+		var data = <?php echo $files ?>
 	</script>
 	<script src="/js/index.js"></script>
 </body>
