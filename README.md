@@ -1,15 +1,19 @@
 ## Photo-Map
 ### 一款Web站点的地图相册(v 1.0)
 ![](./public/readme1.png)
-**灵感来源于:iphone的地图相册**
-**脑袋想的是:记录足迹，服务生活**
+**灵感来源于:iphone的地图相册**<br>
+**脑袋想的是:记录足迹，服务生活**<br>
 ### 感谢
-[Leaflet](https://github.com/Leaflet/Leaflet)
-[Leaflet.Photo](https://github.com/turban/Leaflet.Photo)
-[Leaflet.ChineseTmsProviders](https://github.com/htoooth/Leaflet.ChineseTmsProviders)
-[layui](https://www.layui.com/)
-[高德地图](https://www.amap.com/)
+[Leaflet](https://github.com/Leaflet/Leaflet)<br>
+[Leaflet.Photo](https://github.com/turban/Leaflet.Photo)<br>
+[Leaflet.ChineseTmsProviders](https://github.com/htoooth/Leaflet.ChineseTmsProviders)<br>
+[layui](https://www.layui.com/)<br>
+[谷歌地图]()<br>
+[高德地图](https://www.amap.com/)<br>
 [她]()
+### 站点
+[关于](https://blog.treelo.xin/2019/06/09/photo-map/)
+[部署站点](https://photo.treelo.xin/)
 
 ### 目录结构
 PHPMVC
