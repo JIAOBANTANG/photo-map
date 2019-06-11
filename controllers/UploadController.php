@@ -1,6 +1,7 @@
 <?php
 namespace controllers;
 use models\Upload;
+use libs\CoordTransform;
 class UploadController{
     public function index(){
         //接受表单传递过来的数据
@@ -27,7 +28,8 @@ class UploadController{
                      $isRename =   rename($saveDir,$url);
                      if($isRename){
                          $upload = new Upload;
-                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES(1,'$lng','$lat','$url','$time','$towncode', '$address')";
+                       	$id = $_SESSION['id'];
+                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES($id,'$lng','$lat','$url','$time','$towncode', '$address')";
                          $isUp = $upload->insert($sql);
                          if($isUp){
                              echo json_encode([
@@ -54,6 +56,10 @@ class UploadController{
                        ]);
                     //    dd("没有经纬度");
                    }else{
+                        $coordtransform = new CoordTransform();
+                        $GPS = $coordtransform->wgs84togcj02($lngs,$lats);
+                        $lngs = $GPS[0];
+                        $lats = $GPS[1];
                        //获取拍摄时间
                        $time = getDateTime($exif);
                         //获取定位信息
