@@ -1,51 +1,89 @@
-var normalm = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
-    maxZoom: 18,
-    minZoom: 3
-});
-var imgm = L.tileLayer.chinaProvider('GaoDe.Satellite.Map', {
-    maxZoom: 18,
-    minZoom: 3
-});
-var imga = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion', {
-    maxZoom: 18,
-    minZoom: 3
-});
+// var normalm = L.tileLayer.chinaProvider('GaoDe.Normal.Map', {
+//     maxZoom: 18,
+//     minZoom: 5
+// });
+// var imgm = L.tileLayer.chinaProvider('GaoDe.Satellite.Map', {
+//     maxZoom: 18,
+//     minZoom: 5
+// });
+// var imga = L.tileLayer.chinaProvider('GaoDe.Satellite.Annotion', {
+//     maxZoom: 18,
+//     minZoom: 5
+// });
 
-var normal = L.layerGroup([normalm]),
-    image = L.layerGroup([imgm, imga]);
+// var normal = L.layerGroup([normalm]),
+//     image = L.layerGroup([imgm, imga]);
+
+// var baseLayers = {
+//     "地图": normal,
+//     "影像": image,
+// }
+
+
+// var map = L.map("map", {
+//     center: [31.59, 120.29],
+//     zoom: 12,
+//     layers: [normal],
+//     zoomControl: false
+// });
+
+// L.control.layers(baseLayers, null).addTo(map);
+// L.control.zoom({
+//     zoomInTitle: '放大',
+//     zoomOutTitle: '缩小'
+// }).addTo(map);
+var normalMap = L.tileLayer.chinaProvider('Google.Normal.Map', {
+    maxZoom: 18,
+    minZoom: 5
+}),
+    satelliteMap = L.tileLayer.chinaProvider('Google.Satellite.Map', {
+        maxZoom: 18,
+        minZoom: 5
+    });
 
 var baseLayers = {
-    "地图": normal,
-    "影像": image,
+    "地图": normalMap,
+    "影像": satelliteMap,
+}
+
+var overlayLayers = {
+
 }
 
 var map = L.map("map", {
     center: [31.59, 120.29],
     zoom: 12,
-    layers: [normal],
+    layers: [normalMap],
     zoomControl: false
 });
-
-L.control.layers(baseLayers, null).addTo(map);
+L.control.layers(baseLayers, overlayLayers).addTo(map);
 L.control.zoom({
     zoomInTitle: '放大',
     zoomOutTitle: '缩小'
 }).addTo(map);
-
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
-        template = '<img src="{url}"/></a><p>拍摄于{address}({data_time})</p>';
-
+        template = '<ul id="dowebok"><li><img src="{url}"  data-original="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></li></ul>';
+      
     if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
         template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
     };
-
     evt.layer.bindPopup(L.Util.template(template, photo), {
         className: 'leaflet-popup-photo',
         minWidth: 300
     }).openPopup();
+
+    var viewer = new Viewer(document.querySelector('body'), {
+        url: 'data-original',
+        // hidden: function () {
+        //     //摧毁容器，不摧毁会有些小bug
+        //     viewer.destroy();
+        // },
+        navbar:false,        
+    });
+    viewer.view(imgIndex);
 });
-if(data.rows.length>0){
+if (data.rows.length > 0) {
     photoLayer.add(data.rows).addTo(map);
     map.fitBounds(photoLayer.getBounds());
 }
@@ -54,6 +92,8 @@ layui.use('element', function () {
     var element = layui.element;
 
 });
+//加载框
+var loding;
 function addPhoto() {
     layui.use('layer', function () {
         var layer = layui.layer;
@@ -111,9 +151,17 @@ function addPhoto() {
                     var files = this.files = obj.pushFile(); //将每次选择的文件追加到文件队列
                     var that = this;
                     //刷新页面
-                    document.querySelector('.layui-layer-close').onclick = function() { 
+                    document.querySelector('.layui-layer-close').onclick = function () {
                         location.reload();
-                    } 
+                    }
+
+                   //给来个加载框
+                    document.querySelector('#testListAction').onclick = function () {
+                        let files =  document.querySelector('#demoList').innerHTML;
+                        if(files){
+                             loding = layer.load();
+                        }
+                    }
                     //读取本地文件
                     obj.preview(function (index, file, result) {
                         var tr = $(['<tr id="upload-' + index + '">'
@@ -124,7 +172,7 @@ function addPhoto() {
                             , '<td>'
                             , '<p class="demo-reload-p layui-hide gaode-url" >图片EXIF数据缺失</p>'
                             , '<p class="demo-reload-p-lng-and-lat gaode-url layui-hide">请填入经纬度，和拍摄时间</p>'
-                            , '<input class="layui-input demo-reload-lng-and-lat layui-hide"  type="text" name="lng" lay-verify="lng" autocomplete="off" placeholder="经纬度,用','号隔开">'
+                            , '<input class="layui-input demo-reload-lng-and-lat layui-hide"  type="text" name="lng" lay-verify="lng" autocomplete="off" placeholder="经纬度,用', '号隔开">'
                             , '<input class="layui-input demo-reload-time layui-hide" type="text" name="time" lay-verify="time" autocomplete="off" placeholder="拍摄时间">'
                             // ,'<input type="text" class="layui-input datetimes" id="test5" placeholder="yyyy-MM-dd HH:mm:ss">'
                             , '<button class="layui-btn layui-btn-xs demo-reload layui-hide">重传</button>'
@@ -180,8 +228,8 @@ function addPhoto() {
                     });
                 }
                 , done: function (res, index, upload) {
-                    // res = JSON.parse(res);
-
+                    //关闭加载框
+                    layer.close(loding);
                     if (res.code == 2000) { //上传成功
                         var tr = demoListView.find('tr#upload-' + index)
                             , tds = tr.children();
@@ -212,3 +260,46 @@ function addPhoto() {
             });
     });
 };
+function delPhoto(fid) {
+    console.log(fid)
+    layui.use('layer', function () {
+        layer.open({
+            title: '你确定要删除吗?',
+            offset: 'auto',
+            content: '<img width="300" src="/images/wuwu.gif" alt="">'
+            , btn: ['狠心删除', '我在想想', '还是不了']
+            , yes: function (index, layero) {
+                //按钮【按钮一】的回调
+                //刷新页面
+                console.log('jajaj')
+                axios.post('/index💕delete', {
+                    fid: fid,
+                })
+                    .then(function (response) {
+                        if (response.data.code == 2000) {
+                            layer.msg(response.data.msg, { icon: 1, anim: 1 }, function () {
+                                location.reload()
+                            });
+                        } else {
+                            layer.msg(response.data.msg, { icon: 5, anim: 6 });
+                        }
+                    });
+            }
+            , btn2: function (index, layero) {
+                //按钮【按钮二】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            , btn3: function (index, layero) {
+                //按钮【按钮三】的回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+            , cancel: function () {
+                //右上角关闭回调
+
+                //return false 开启该代码可禁止点击该按钮关闭
+            }
+        });
+    });
+}
