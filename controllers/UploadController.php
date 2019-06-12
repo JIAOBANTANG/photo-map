@@ -128,7 +128,6 @@ class UploadController{
         }
     }
     public function login(){
-
     }
 }
 

@@ -34,11 +34,11 @@
 // }).addTo(map);
 var normalMap = L.tileLayer.chinaProvider('Google.Normal.Map', {
     maxZoom: 18,
-    minZoom: 5
+    minZoom: 3
 }),
     satelliteMap = L.tileLayer.chinaProvider('Google.Satellite.Map', {
         maxZoom: 18,
-        minZoom: 5
+        minZoom: 3
     });
 
 var baseLayers = {
@@ -50,8 +50,8 @@ var overlayLayers = {
 
 }
 var map = L.map("map", {
-    center: [31.59, 120.29],
-    zoom: 12,
+    // center: [31.59, 120.29],
+    zoom: 18,
     layers: [normalMap],
     zoomControl: false
 });
@@ -74,13 +74,13 @@ var photoLayer = L.photo.cluster().on('click', function (evt) {
 
     var viewer = new Viewer(document.querySelector('body'), {
         url: 'data-original',
-        // hidden: function () {
-        //     //摧毁容器，不摧毁会有些小bug
-        //     viewer.destroy();
-        // },
+        hidden: function () {
+            //摧毁容器，不摧毁会有些小bug
+            viewer.destroy();
+        },
         navbar:false,        
     });
-    viewer.view(imgIndex);
+    // viewer.view(imgIndex);
 });
 if (data.rows.length > 0) {
     photoLayer.add(data.rows).addTo(map);
