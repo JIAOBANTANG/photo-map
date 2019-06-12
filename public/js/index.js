@@ -49,7 +49,6 @@ var baseLayers = {
 var overlayLayers = {
 
 }
-
 var map = L.map("map", {
     center: [31.59, 120.29],
     zoom: 12,
@@ -63,7 +62,7 @@ L.control.zoom({
 }).addTo(map);
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
-        template = '<ul id="dowebok"><li><img src="{url}"  data-original="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></li></ul>';
+        template = '<ul id="dowebok"><li><img src="{thumbnail}"  data-original="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></li></ul>';
       
     if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
         template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
@@ -106,6 +105,7 @@ function addPhoto() {
             , anim: 1 //0-6的动画形式，-1不开启
             , content: `<div class="layui-upload">
         <button type="button" class="layui-btn layui-btn-normal" id="testList">请选择图片</button> 
+        <span style="color:red;">！禁止中文图片名</span> 
         <a class="gaode-url" target="_brank" href="https://lbs.amap.com/console/show/picker">高德地图定位获取</a>
         <input type="text" class="layui-input datetimes" id="datetimes" placeholder="这是个时间选择器,选好复制，格式:yyyy-MM-dd HH:mm:ss">
         <div class="layui-upload-list">
@@ -121,6 +121,7 @@ function addPhoto() {
           </table>
         </div>
         <button type="button" class="layui-btn" id="testListAction">开始上传</button>
+	    <span class="gaode-url">涉及多图大文件上传时，请勿重复点击上传按钮</span>        
       </div>`
         });
         layui.use('laydate', function () {

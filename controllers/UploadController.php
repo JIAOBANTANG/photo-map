@@ -14,34 +14,41 @@ class UploadController{
         if($isTemp){
             if($lngAndLat){
                 //获取定位信息
-                list($lng,$lat)=explode(',',$lngAndLat);
-                $gps_data = getGpsInfo($lng,$lat);
-                //获取区号用于文件移入路径
-                $towncode = $gps_data['regeocode']['addressComponent']['towncode'];
-                //获取具体地点
-                $address = $gps_data['regeocode']['formatted_address'];
-                    //创建目录，移动文件
-                    $dir = "photos/".$_SESSION['name']."/{$towncode}";
-                    makeDir($dir);
-                    $url = $dir."/".$file['name'];
-                    $slurl = $dir.'/su'.$file['name'];
+                list($lngs,$lats)=explode(',',$lngAndLat);
+                $gps_data = getGpsInfo($lngs,$lats);
+                if($gps_data['status']){
+                    //获取区号用于文件移入路径
+                    $towncode = $gps_data['regeocode']['addressComponent']['towncode'];
+                    //获取具体地点
+                    $address = $gps_data['regeocode']['formatted_address'];
+                        //创建目录，移动文件
+                        $dir = "photos/".$_SESSION['name']."/{$towncode}";
+                        makeDir($dir);
+                        $url = $dir."/".$file['name'];
+                        $slurl = $dir.'/su'.$file['name'];
+                        //    rename()
+                        $id = $_SESSION['id'];
+                        suolue($saveDir,$slurl);
                     //    rename()
-                    $id = $_SESSION['id'];
-                    suolue($saveDir,$slurl);
-                 //    rename()
-                     $isRename =   rename($saveDir,$url);
-                     if($isRename){
-                         $upload = new Upload;
-                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
-                         $isUp = $upload->insert($sql);
-                         if($isUp){
-                             echo json_encode([
-                                 'code'=>2000,
-                                 'msg'=>'上传成功',
-                                 'address'=>$address
-                             ]);    
-                         }
-                     }
+                        $isRename =   rename($saveDir,$url);
+                        if($isRename){
+                            $upload = new Upload;
+                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
+                            $isUp = $upload->insert($sql);
+                            if($isUp){
+                                echo json_encode([
+                                    'code'=>2000,
+                                    'msg'=>'上传成功',
+                                    'address'=>$address
+                                ]);    
+                            }
+                        }
+                }else{
+                    echo json_encode([
+                        'code'=>4007,
+                        'msg'=>'定位信息错误',
+                    ]);  
+                }
            }else{  
                try{
                    //图片存在exif信息
