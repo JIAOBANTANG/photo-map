@@ -22,7 +22,7 @@ class IndexController{
             foreach($data as $v=>$k){
                 $data[$v]['lat']=floatval($data[$v]['lat']);
                 $data[$v]['lng']=floatval($data[$v]['lng']);
-                $data[$v]['thumbnail']= config('domain').$data[$v]['thumbnail'];
+                // $data[$v]['thumbnail']= config('domain').'/'.$data[$v]['thumbnail'];
             }
             // dd($rows);
             // $data = json_encode($data);

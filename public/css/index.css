@@ -8,7 +8,7 @@
     height: 200px;
 }
 .layui-nav {
-    width: 300px;
+    width: 220px;
     height: 60px;
     position: fixed;
     background-color: transparent;
@@ -71,3 +71,28 @@ white-space: nowrap;
 .layui-input{
     margin: 10px 0 10px 0;
 }
+
+.layui-layer-btn0{
+    border-color: #ff5823 !important;
+    background-image: -webkit-linear-gradient(45deg,
+	#ff5823,
+	#ea9999);   
+}
+#layui-layer1{
+    border-radius: 20px;
+}
+.layui-layer-title{
+    border-radius: 20px 20px 0 0 !important;
+}
+
+.layui-layer-content{
+    border-radius: 20px !important; 
+}
+/* .viewer-fixed{
+    position: absolute !important;
+    right: 100px;
+    top: 100px;
+    width: 1000px;
+    height: 600px;
+
+} */

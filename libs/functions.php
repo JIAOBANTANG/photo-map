@@ -89,3 +89,18 @@ function makeDir($dir){
         mkdir($dir, 0777, true);
     }
 }
+//图片缩略函数
+function suolue($filename,$savePath){
+    $per=0.1;
+    list($width, $height)=getimagesize($filename);
+    $n_w=$width*$per;
+    $n_h=$height*$per;
+    $new=imagecreatetruecolor($n_w, $n_h);
+    $img=imagecreatefromjpeg($filename);
+    //copy部分图像并调整
+    imagecopyresized($new, $img,0, 0,0, 0,$n_w, $n_h, $width, $height);
+    //图像输出新图片、另存为
+    imagejpeg($new,$savePath);
+    imagedestroy($new);
+    imagedestroy($img);
+}

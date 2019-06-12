@@ -24,12 +24,15 @@ class UploadController{
                     $dir = "photos/".$_SESSION['name']."/{$towncode}";
                     makeDir($dir);
                     $url = $dir."/".$file['name'];
+                    $slurl = $dir.'/su'.$file['name'];
+                    //    rename()
+                    $id = $_SESSION['id'];
+                    suolue($saveDir,$slurl);
                  //    rename()
                      $isRename =   rename($saveDir,$url);
                      if($isRename){
                          $upload = new Upload;
-                       	$id = $_SESSION['id'];
-                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES($id,'$lng','$lat','$url','$time','$towncode', '$address')";
+                         $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
                          $isUp = $upload->insert($sql);
                          if($isUp){
                              echo json_encode([
@@ -43,6 +46,22 @@ class UploadController{
                try{
                    //图片存在exif信息
                    @$exif = exif_read_data($saveDir,'IFD0',false);
+                   $image = imagecreatefromstring(file_get_contents($saveDir));
+                //    dd($exif['Orientation']);
+                   //图片翻转
+                   switch($exif['Orientation']) {
+                    case 8:
+                     $image = imagerotate($image,90,0);
+                     break;
+                    case 3:
+                     $image = imagerotate($image,180,0);
+                     break;
+                    case 6:
+                     $image = imagerotate($image,-90,0);
+                     break;
+                   }
+                   imagejpeg($image, $saveDir);
+                   imagedestroy($image);
                    //获取经度
                    @$lngs = getGps($exif["GPSLongitude"], $exif['GPSLongitudeRef']);
                    //获取纬度
@@ -72,12 +91,14 @@ class UploadController{
                        $dir = "photos/".$_SESSION['name']."/{$towncode}";
                        makeDir($dir);
                        $url = $dir."/".$file['name'];
+                       $slurl = $dir.'/su'.$file['name'];
                     //    rename()
                         $id = $_SESSION['id'];
-                        $isRename =   rename($saveDir,$url);
+                        suolue($saveDir,$slurl);
+                        $isRename = rename($saveDir,$url);
                         if($isRename){
                             $upload = new Upload;
-                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$time','$towncode', '$address')";
+                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
                             $isUp = $upload->insert($sql);
                             if($isUp){
                                 echo json_encode([
