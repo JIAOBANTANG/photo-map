@@ -80,7 +80,7 @@ white-space: nowrap;
 }
 #layui-layer1{
     border-radius: 20px;
-}
+} 
 .layui-layer-title{
     border-radius: 20px 20px 0 0 !important;
 }
@@ -88,11 +88,28 @@ white-space: nowrap;
 .layui-layer-content{
     border-radius: 20px !important; 
 }
-/* .viewer-fixed{
+.viewer-fixed{
     position: absolute !important;
     right: 100px;
     top: 100px;
     width: 1000px;
     height: 600px;
 
-} */
+}
+
+.layui-layer-shade{
+    background-color: rgba(0, 0, 0, 0.537) !important;
+    opacity: 0.8 !important;
+}
+.layui-layer-imgbar{
+    background-color:transparent !important;
+    
+}
+#layui-layer-photos{
+    border-radius: 0px 0px 0px 0px !important;
+    background-color:#ccc !important;
+}
+.layui-layer-content{
+    padding: 0;
+    background-color:#ccc !important;
+}

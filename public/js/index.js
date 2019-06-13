@@ -62,8 +62,7 @@ L.control.zoom({
 }).addTo(map);
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
-        template = '<ul id="dowebok"><li><img src="{thumbnail}"  data-original="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></li></ul>';
-      
+        template = '<div id="layer-photos-map"><img src="{thumbnail}" layer-src="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></div>';
     if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
         template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
     };
@@ -71,16 +70,12 @@ var photoLayer = L.photo.cluster().on('click', function (evt) {
         className: 'leaflet-popup-photo',
         minWidth: 300
     }).openPopup();
-
-    var viewer = new Viewer(document.querySelector('body'), {
-        url: 'data-original',
-        hidden: function () {
-            //摧毁容器，不摧毁会有些小bug
-            viewer.destroy();
-        },
-        navbar:false,        
-    });
-    // viewer.view(imgIndex);
+    layui.use('layer', function () {
+    layer.photos({
+        photos: '#layer-photos-map'
+        ,anim: 0//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+      }); 
+    }); 
 });
 if (data.rows.length > 0) {
     photoLayer.add(data.rows).addTo(map);
@@ -304,3 +299,29 @@ function delPhoto(fid) {
         });
     });
 }
+// function previewImg(img) {
+//     var data = img.getAttribute('data-original')
+//     console.log(data);
+//     //var height = img.height + 50; // 原图片大小
+//     // //var width = img.width; //原图片大小
+//     // var imgHtml = "<img src='" + img + "/>";  
+//     // //弹出层
+//     layui.use('layer', function () {
+  
+
+
+//     var index = layer.open({
+//         type: 2,
+//         title: "图片预览", //不显示标题  
+//         // content:'<img src="'+data+'" alt="">', 
+//         area: ['300px', '195px'],
+//         maxmin: true,
+//         content:'<img src="'+data+'" alt="">',
+//     });
+//     layer.full(index);
+// }); 
+// }
+//   //另外打开一个页面显示图片
+// //   function previewImg(obj) {
+// //     window.open(obj.src);
+// // }
