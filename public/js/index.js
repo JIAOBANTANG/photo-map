@@ -93,6 +93,7 @@ function addPhoto() {
         var layer = layui.layer;
         layer.open({
             type: 1 //Page层类型
+            ,skin: 'class-uploads'            
             , area: ['800px', '600px']
             , title: '记录生活'
             , shade: 0.4 //遮罩透明度
@@ -261,7 +262,8 @@ function delPhoto(fid) {
     layui.use('layer', function () {
         layer.open({
             title: '你确定要删除吗?',
-            offset: 'auto',
+            skin: 'class-del'
+            ,offset: 'auto',
             content: '<img width="300" src="/images/wuwu.gif" alt="">'
             , btn: ['狠心删除', '我在想想', '还是不了']
             , yes: function (index, layero) {
@@ -299,29 +301,3 @@ function delPhoto(fid) {
         });
     });
 }
-// function previewImg(img) {
-//     var data = img.getAttribute('data-original')
-//     console.log(data);
-//     //var height = img.height + 50; // 原图片大小
-//     // //var width = img.width; //原图片大小
-//     // var imgHtml = "<img src='" + img + "/>";  
-//     // //弹出层
-//     layui.use('layer', function () {
-  
-
-
-//     var index = layer.open({
-//         type: 2,
-//         title: "图片预览", //不显示标题  
-//         // content:'<img src="'+data+'" alt="">', 
-//         area: ['300px', '195px'],
-//         maxmin: true,
-//         content:'<img src="'+data+'" alt="">',
-//     });
-//     layer.full(index);
-// }); 
-// }
-//   //另外打开一个页面显示图片
-// //   function previewImg(obj) {
-// //     window.open(obj.src);
-// // }

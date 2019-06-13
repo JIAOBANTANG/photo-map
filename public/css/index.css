@@ -78,24 +78,13 @@ white-space: nowrap;
 	#ff5823,
 	#ea9999);   
 }
-#layui-layer1{
+/* #layui-layer1{
     border-radius: 20px;
-} 
+}  */
 .layui-layer-title{
     border-radius: 20px 20px 0 0 !important;
 }
 
-.layui-layer-content{
-    border-radius: 20px !important; 
-}
-.viewer-fixed{
-    position: absolute !important;
-    right: 100px;
-    top: 100px;
-    width: 1000px;
-    height: 600px;
-
-}
 
 .layui-layer-shade{
     background-color: rgba(0, 0, 0, 0.537) !important;
@@ -107,9 +96,15 @@ white-space: nowrap;
 }
 #layui-layer-photos{
     border-radius: 0px 0px 0px 0px !important;
-    background-color:#ccc !important;
+    padding:0;
 }
-.layui-layer-content{
-    padding: 0;
-    background-color:#ccc !important;
+.class-del{
+    border-radius: 20px !important; 
+}
+.class-uploads{
+    border-radius: 20px !important; 
+}
+.class-uploads .layui-layer-content{
+    padding: 20px !important;
+    border-radius: 0 0 20px 20px !important; 
 }
