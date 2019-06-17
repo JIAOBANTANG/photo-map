@@ -50,7 +50,7 @@ var overlayLayers = {
 
 }
 var map = L.map("map", {
-    // center: [31.59, 120.29],
+    center: [39.907658,116.404347],
     zoom: 18,
     layers: [normalMap],
     zoomControl: false
