@@ -194,4 +194,8 @@ div .actions #submit{
 	background-image: -webkit-linear-gradient(45deg,
 	#00ffb9,
 	#71ebff);
+  color: #015069;
+}
+.layui-btn:hover{
+  color: #015069;
 }
