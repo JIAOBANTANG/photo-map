@@ -8,6 +8,7 @@ return [
         'password'=>'',
         'charset'=>'utf8'
     ],
+    //还没用到redis
     'redis'=>[
         'scheme'=>'tcp',
         'host'=>'127.0.0.1',
@@ -15,9 +16,9 @@ return [
     ],
     //高德地图webKey（用于获取定位信息）
     'map-key'=>'',
-    //盐（用于加密）
-    'encryption_value'=>'',
-    //邀请码明文()
+    //盐（用于加密,可自行修改）
+    'encryption_value'=>'d441d3a65d31dbf0a816a71a53',
+    //邀请码明文
     'encryption_key'=>'',
     //加盐邀请码(请自行生成，然后保存于此)
     'encryption_value_code'=>'',

@@ -40,13 +40,13 @@ PHPMVC
 **安装或开启EXIF扩展**
 **修改对应配置**
 首先修改数据库配置，并导入sql文件
-接着修改:
+接着把config.example.php修改为config.php,并修改相应配置
 ~~~
 //高德地图webKey（用于获取定位信息）
 'map-key'=>'',
-//盐（用于加密）
-'encryption_value'=>'',
-//邀请码明文()
+//盐（用于加密,可自行修改）
+'encryption_value'=>'d441d3a65d31dbf0a816a71a53',
+//邀请码明文
 'encryption_key'=>'',
 //加盐邀请码(请自行生成，然后保存于此)
 'encryption_value_code'=>'',
