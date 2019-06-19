@@ -50,7 +50,7 @@ var overlayLayers = {
 
 }
 var map = L.map("map", {
-    center: [39.907658,116.404347],
+    center: [39.907658, 116.404347],
     zoom: 18,
     layers: [normalMap],
     zoomControl: false
@@ -62,7 +62,7 @@ L.control.zoom({
 }).addTo(map);
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
-        template = '<div id="layer-photos-map"><img src="{thumbnail}" layer-src="{url}"/></a><p>拍摄于{address}({data_time})</p><a href="javascript:;" onclick="delPhoto({id})">删除</a></div>';
+        template = "<div id='layer-photos-map'><img src='{thumbnail}' layer-src='{url}'/></a><div class='mianshutext'>{event}</div><p class='address'>{address}({data_time})</p><a href='javascript:;' onclick='delPhoto({id})'>抹掉此足迹</a>&nbsp;&nbsp;<a href='javascript:;' onclick='miaoShu(this)' data-id='{id}' data-content='{event}';>文字描述</a></div>";
     if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
         template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
     };
@@ -71,11 +71,11 @@ var photoLayer = L.photo.cluster().on('click', function (evt) {
         minWidth: 300
     }).openPopup();
     layui.use('layer', function () {
-    layer.photos({
-        photos: '#layer-photos-map'
-        ,anim: 0//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-      }); 
-    }); 
+        layer.photos({
+            photos: '#layer-photos-map'
+            , anim: 0//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+        });
+    });
 });
 if (data.rows.length > 0) {
     photoLayer.add(data.rows).addTo(map);
@@ -93,7 +93,7 @@ function addPhoto() {
         var layer = layui.layer;
         layer.open({
             type: 1 //Page层类型
-            ,skin: 'class-uploads'            
+            , skin: 'class-uploads'
             , area: ['800px', '600px']
             , title: '记录生活'
             , shade: 0.4 //遮罩透明度
@@ -152,11 +152,11 @@ function addPhoto() {
                         location.reload();
                     }
 
-                   //给来个加载框
+                    //给来个加载框
                     document.querySelector('#testListAction').onclick = function () {
-                        let files =  document.querySelector('#demoList').innerHTML;
-                        if(files){
-                             loding = layer.load();
+                        let files = document.querySelector('#demoList').innerHTML;
+                        if (files) {
+                            loding = layer.load();
                         }
                     }
                     //读取本地文件
@@ -242,7 +242,7 @@ function addPhoto() {
                         tds.eq(4).find('.demo-reload-p-lng-and-lat').removeClass('layui-hide'); //显示重传
                         tds.eq(4).find('.demo-reload-lng-and-lat').removeClass('layui-hide'); //显示重传
                         tds.eq(4).find('.demo-reload-time').removeClass('layui-hide'); //显示重传
-                        tds.eq(4).find('.demo-reload').removeClass('layui-hide'); //显示重传 
+                        tds.eq(4).find('.demo-reload').removeClass('layui-hide'); //显示重传
                     }
                     if (res.code == 4004) {
                         var tr = demoListView.find('tr#upload-' + index)
@@ -263,7 +263,7 @@ function delPhoto(fid) {
         layer.open({
             title: '你确定要删除吗?',
             skin: 'class-del'
-            ,offset: 'auto',
+            , offset: 'auto',
             content: '<img width="300" src="/images/wuwu.gif" alt="">'
             , btn: ['狠心删除', '我在想想', '还是不了']
             , yes: function (index, layero) {
@@ -300,4 +300,37 @@ function delPhoto(fid) {
             }
         });
     });
+}
+
+//描述
+function miaoShu(e) {
+    let id = e.getAttribute('data-id');
+    let content = e.getAttribute('data-content');
+    layui.use('layer', function () {
+        layer.open({
+            type: 1,
+            title: '能记录下来的还有文字哦~',
+            area: ['600px', '450px'],
+            skin: 'class-miaoShu'
+            , offset: 'auto',
+            content: `<textarea name="miaoshu" class="layui-textarea" id="miaoshu">` + content + `</textarea><button onclick="addMiaoShu(` + id + `)" class="layui-btn">提交文字</button>`
+        });
+    });
+
+}
+function addMiaoShu(id) {
+    let content = document.querySelector('#miaoshu').value;
+    axios.post('/index💕addmiaoshu', {
+        fid: id,
+        content: content
+    })
+        .then(function (response) {
+            if (response.data.code == 2000) {
+                layer.msg(response.data.msg, { icon: 1, anim: 1 }, function () {
+                    location.reload()
+                });
+            } else {
+                layer.msg(response.data.msg, { icon: 5, anim: 6 });
+            }
+        });
 }

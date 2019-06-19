@@ -108,3 +108,16 @@ white-space: nowrap;
     padding: 20px !important;
     border-radius: 0 0 20px 20px !important; 
 }
+.class-miaoShu{
+    border-radius: 20px !important; 
+}
+
+.class-miaoShu .layui-layer-content{
+    border-radius:0 0 20px 20px !important; 
+}
+.address{
+    color:#358d3a;
+}
+.layui-textarea{
+    height: 300px;
+}

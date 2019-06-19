@@ -13,4 +13,14 @@ class File extends Base{
       $sta = self::$pdo->exec($sql);
       return $sta;
    }
+   public function addMiaoShu($fid,$content){
+      $uid = $_SESSION['id'];
+      $sql = "UPDATE m_files SET f_event= ? WHERE f_uid= $uid and f_id=$fid";
+      
+      $stmt = self::$pdo->prepare($sql);
+      $sta = $stmt->execute([
+         $content
+      ]); 
+      return $sta;
+   }
 }

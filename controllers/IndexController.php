@@ -126,4 +126,27 @@ class IndexController{
             ]);  
         }
     }
+    public function addmiaoshu(){
+        $data = json_decode(file_get_contents("php://input"),1);
+        
+        $fid = $data['fid'];
+        // $content = e($data['content']);
+        $content = $data['content'];
+        if($fid && $content){
+            $file = new File;
+            $status = $file->addMiaoShu($fid,$content);
+            if($status){
+                echo json_encode([
+                    'code'=>2000,
+                    'msg'=>'描述修改或添加成功',
+                ]);  
+            }else{
+                echo json_encode([
+                    'code'=>4000,
+                    'msg'=>'描述内容未变化或错误',
+                ]);  
+            }
+        }
+        
+    }
 }
