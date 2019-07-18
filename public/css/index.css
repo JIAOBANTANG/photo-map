@@ -47,6 +47,9 @@
 	#00ffb9,
 	#71ebff);
 }
+.layui-btn{
+    color: #015069;
+}
 .layui-btn-normal{
     background-image: -webkit-linear-gradient(45deg,
 	#1e9fff ,

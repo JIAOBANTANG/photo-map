@@ -2,6 +2,7 @@
 namespace controllers;
 use models\Upload;
 use libs\CoordTransform;
+use libs\Imgcompress;
 class UploadController{
     public function index(){
         //接受表单传递过来的数据
@@ -11,6 +12,7 @@ class UploadController{
         $img = $file['tmp_name'];
         $saveDir = UPURL.'temp/'.$file['name'];
         $isTemp = move_uploaded_file($img,$saveDir);
+    
         if($isTemp){
             if($lngAndLat){
                 //获取定位信息
@@ -25,7 +27,12 @@ class UploadController{
                         $dir = "photos/".$_SESSION['name']."/{$towncode}";
                         makeDir($dir);
                         $url = $dir."/".$file['name'];
-                        $slurl = $dir.'/su'.$file['name'];
+                        $slurl = $dir.'/sl'.$file['name'];
+                      //图片无损压缩
+                       $wsysurl =  UPURL.$dir.'/wsys'.$file['name'];//保存图片的文件名
+                       $dbwsysurl = $dir.'/wsys'.$file['name'];
+                       $percent = 1;  #原图压缩，不缩放，但体积大大降低
+                       $image = (new Imgcompress($saveDir,$percent))->compressImg($wsysurl);
                         //    rename()
                         $id = $_SESSION['id'];
                         suolue($saveDir,$slurl);
@@ -33,7 +40,7 @@ class UploadController{
                         $isRename =   rename($saveDir,$url);
                         if($isRename){
                             $upload = new Upload;
-                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
+                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_wsysurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$dbwsysurl','$time','$towncode', '$address')";
                             $isUp = $upload->insert($sql);
                             if($isUp){
                                 echo json_encode([
@@ -99,13 +106,21 @@ class UploadController{
                        makeDir($dir);
                        $url = $dir."/".$file['name'];
                        $slurl = $dir.'/su'.$file['name'];
+
+
+                       //图片无损压缩
+                       $wsysurl =  UPURL.$dir.'/wsys'.$file['name'];//保存图片的文件名
+                       $dbwsysurl = $dir.'/wsys'.$file['name'];
+                       $percent = 1;  #原图压缩，不缩放，但体积大大降低
+                       $image = (new Imgcompress($saveDir,$percent))->compressImg($wsysurl);
+
                     //    rename()
                         $id = $_SESSION['id'];
                         suolue($saveDir,$slurl);
                         $isRename = rename($saveDir,$url);
                         if($isRename){
                             $upload = new Upload;
-                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$time','$towncode', '$address')";
+                            $sql = "INSERT INTO m_files(f_uid,f_lng,f_lat,f_url,f_slurl,f_wsysurl,f_date_time,f_towncode,f_address) VALUES($id,'$lngs','$lats','$url','$slurl','$dbwsysurl','$time','$towncode', '$address')";
                             $isUp = $upload->insert($sql);
                             if($isUp){
                                 echo json_encode([
@@ -128,6 +143,7 @@ class UploadController{
         }
     }
     public function login(){
+
     }
 }
 

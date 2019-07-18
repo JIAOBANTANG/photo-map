@@ -39,6 +39,9 @@ class IndexController{
                     "thumbnail"=>[
                         "type"=>"string"
                     ],
+                    "nodes"=>[
+                        "type"=>"string"
+                    ],
                     "url"=>[
                         "type"=>"string"
                     ],
@@ -52,6 +55,7 @@ class IndexController{
                 "total_rows"=>$rows
             ];
             $files = json_encode($files);
+            // dd($files);
                 view('index.index',[
                     'files'=>$files
                 ]);
@@ -89,6 +93,9 @@ class IndexController{
                         "type"=>"number"
                     ],
                     "thumbnail"=>[
+                        "type"=>"string"
+                    ],
+                    "nodes"=>[
                         "type"=>"string"
                     ],
                     "url"=>[

@@ -62,7 +62,7 @@ L.control.zoom({
 }).addTo(map);
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
-        template = "<div id='layer-photos-map'><img src='{thumbnail}' layer-src='{url}'/></a><div class='mianshutext'>{event}</div><p class='address'>{address}({data_time})</p><a href='javascript:;' onclick='delPhoto({id})'>抹掉此足迹</a>&nbsp;&nbsp;<a href='javascript:;' onclick='miaoShu(this)' data-id='{id}' data-content='{event}';>文字描述</a></div>";
+        template = "<div id='layer-photos-map'><img src='{thumbnail}' layer-src='{nondes}'/></a><div class='mianshutext'>{event}</div><p class='address'>{address}({data_time})</p><a href='javascript:;' onclick='delPhoto({id})'>抹掉此足迹</a>&nbsp;&nbsp;<a href='javascript:;' onclick='miaoShu(this)' data-id='{id}' data-content='{event}';>文字描述</a></a>&nbsp;&nbsp;<a href='{url}' download=''>下载</a></div>";
     if (photo.video && (!!document.createElement('video').canPlayType('video/mp4; codecs=avc1.42E01E,mp4a.40.2'))) {
         template = '<video autoplay controls poster="{url}" width="300" height="300"><source src="{video}" type="video/mp4"/></video>';
     };
@@ -70,11 +70,14 @@ var photoLayer = L.photo.cluster().on('click', function (evt) {
         className: 'leaflet-popup-photo',
         minWidth: 300
     }).openPopup();
-    layui.use('layer', function () {
-        layer.photos({
-            photos: '#layer-photos-map'
-            , anim: 0//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
-        });
+    // layui.use('layer', function () {
+    //     layer.photos({
+    //         photos: '#layer-photos-map'
+    //         , anim: 0//0-6的选择，指定弹出图片动画类型，默认随机（请注意，3.0之前的版本用shift参数）
+    //     });
+    // });
+    var viewer = new Viewer(document.querySelector('#layer-photos-map'), {
+        url: 'layer-src',
     });
 });
 if (data.rows.length > 0) {
@@ -84,7 +87,6 @@ if (data.rows.length > 0) {
 //注意：导航 依赖 element 模块，否则无法进行功能性操作
 layui.use('element', function () {
     var element = layui.element;
-
 });
 //加载框
 var loding;
@@ -127,7 +129,6 @@ function addPhoto() {
                 elem: '#datetimes'
                 , type: 'datetime'
             });
-
         });
     });
     layui.use('upload', function () {
@@ -326,9 +327,12 @@ function addMiaoShu(id) {
     })
         .then(function (response) {
             if (response.data.code == 2000) {
-                layer.msg(response.data.msg, { icon: 1, anim: 1 }, function () {
-                    location.reload()
+                layer.msg(response.data.msg, { icon: 1, anim: 1 },function(){
+                    document.querySelector('.mianshutext').innerHTML=content
                 });
+                setTimeout(function(){
+                    layer.closeAll()
+                },1000);
             } else {
                 layer.msg(response.data.msg, { icon: 5, anim: 6 });
             }
