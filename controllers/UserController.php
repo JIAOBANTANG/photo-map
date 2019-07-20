@@ -10,8 +10,6 @@ class UserController{
             'bgimg'=>$bgimg
         ]);
         // $sql = new Base;
-
-
     }
     public function register(){
         $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
@@ -79,6 +77,7 @@ class UserController{
                     'msg'=>'用户名已存在',
                 ]);  
             }else{
+                // dd(encryption($data['code'],1));
                 if(encryption($data['code'],1)==config('encryption_value')){
                     $in_data = $data['username'].",/images/avatar/Fruit-".mt_rand(1,10).".png,".encryption($data['password']);
                     $sql = "INSERT INTO m_users(u_name,u_avatar,u_password) VALUES(?,?,?)";
@@ -87,7 +86,7 @@ class UserController{
                         echo json_encode([
                             'code'=>2000,
                             'msg'=>'注册成功',
-                        ]);  
+                        ]);
                     }
                 }else{
                     echo json_encode([
@@ -102,7 +101,6 @@ class UserController{
                 'msg'=>'非法操作，已记录在册',
             ]); 
         }
-       
     }
     public function out(){
         setcookie('map-info', NULL);

@@ -72,7 +72,7 @@ class IndexController{
         }
     }
     public function getfile(){
-        if(empty($_SESSIOM['id'])){
+        if(empty($_SESSION['id'])){
             $file = new File;
             $data = $file->getFiles($_SESSION['id']);
             $rows = count($data);

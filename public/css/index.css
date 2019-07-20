@@ -47,9 +47,6 @@
 	#00ffb9,
 	#71ebff);
 }
-.layui-btn{
-    color: #015069;
-}
 .layui-btn-normal{
     background-image: -webkit-linear-gradient(45deg,
 	#1e9fff ,
@@ -123,4 +120,7 @@ white-space: nowrap;
 }
 .layui-textarea{
     height: 300px;
+}
+#testListAction{
+    color: #015069;
 }
