@@ -32,34 +32,83 @@
 //     zoomInTitle: '放大',
 //     zoomOutTitle: '缩小'
 // }).addTo(map);
+// var normalMap = L.tileLayer.chinaProvider('Google.Normal.Map', {
+//     maxZoom: 18,
+//     minZoom: 3
+// }),
+//     satelliteMap = L.tileLayer.chinaProvider('Google.Satellite.Map', {
+//         maxZoom: 18,
+//         minZoom: 3
+//     });
+
+// var baseLayers = {
+//     "地图": normalMap,
+//     "影像": satelliteMap,
+// }
+
+// var overlayLayers = {
+
+// }
+// var map = L.map("map", {
+//     center: [39.907658, 116.404347],
+//     zoom: 18,
+//     layers: [normalMap],
+//     zoomControl: false
+// });
+// L.control.layers(baseLayers, overlayLayers).addTo(map);
+// L.control.zoom({
+//     zoomInTitle: '放大',
+//     zoomOutTitle: '缩小'
+// }).addTo(map);
+var normalm1 = L.tileLayer.chinaProvider('Geoq.Normal.Map', {
+    maxZoom: 12,
+    minZoom: 4
+});
+var normalm2 = L.tileLayer.chinaProvider('Geoq.Normal.PurplishBlue', {
+    maxZoom: 12,
+    minZoom: 4
+});
+var normalm3 = L.tileLayer.chinaProvider('Geoq.Normal.Gray', {
+    maxZoom: 12,
+    minZoom: 4
+});
+var normalm4 = L.tileLayer.chinaProvider('Geoq.Normal.Warm', {
+    maxZoom: 12,
+    minZoom: 4
+});
+var normalm5 = L.tileLayer.chinaProvider('Geoq.Theme.Hydro', {
+    maxZoom: 12,
+    minZoom: 4
+});
 var normalMap = L.tileLayer.chinaProvider('Google.Normal.Map', {
-    maxZoom: 18,
-    minZoom: 3
+    maxZoom: 20,
+    minZoom: 4
 }),
     satelliteMap = L.tileLayer.chinaProvider('Google.Satellite.Map', {
-        maxZoom: 18,
-        minZoom: 3
+        maxZoom: 20,
+        minZoom: 4
     });
-
+    var normal = L.layerGroup([normalm1,satelliteMap, normalm2, normalm3, normalm4, normalm5]);
 var baseLayers = {
-    "地图": normalMap,
+    "地图": normalm1,
     "影像": satelliteMap,
-}
-
-var overlayLayers = {
-
+    "午夜蓝": normalm2,
+    "灰色": normalm3,
+    "暖色": normalm4,
+    "水系": normalm5
 }
 var map = L.map("map", {
     center: [39.907658, 116.404347],
-    zoom: 18,
-    layers: [normalMap],
+    zoom: 12,
+    layers: [normalm1],
     zoomControl: false
 });
-L.control.layers(baseLayers, overlayLayers).addTo(map);
+L.control.layers(baseLayers, null).addTo(map);
 L.control.zoom({
     zoomInTitle: '放大',
     zoomOutTitle: '缩小'
 }).addTo(map);
+
 var photoLayer = L.photo.cluster().on('click', function (evt) {
     var photo = evt.layer.photo,
         template = "<div id='layer-photos-map'><img src='{thumbnail}' layer-src='{nondes}'/></a><div class='mianshutext'>{event}</div><p class='address'>{address}({data_time})</p><a href='javascript:;' onclick='delPhoto({id})'>抹掉此足迹</a>&nbsp;&nbsp;<a href='javascript:;' onclick='miaoShu(this)' data-id='{id}' data-content='{event}';>文字描述</a></a>&nbsp;&nbsp;<a href='{url}' download=''>下载</a></div>";
