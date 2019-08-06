@@ -1,5 +1,5 @@
 ## Photo-Map
-### 一款Web站点的地图相册(v 1.0)
+### 一款Web站点的地图相册(v 1.2)
 ![](./public/readme1.png)
 ![](./public/readme2.png)
 ![](./public/readme3.png)
@@ -45,9 +45,9 @@ PHPMVC
 //高德地图webKey（用于获取定位信息）
 'map-key'=>'',
 //盐（用于加密,可自行修改）
-'encryption_value'=>'d441d3a65d31dbf0a816a71a53',
+'encryption_key'=>'d441d3a65d31dbf0a816a71a53',
 //邀请码明文
-'encryption_key'=>'',
+'encryption_value'=>'',
 //加盐邀请码(请自行生成，然后保存于此)
 'encryption_value_code'=>'',
 //网站域名(现已无实际用途)
