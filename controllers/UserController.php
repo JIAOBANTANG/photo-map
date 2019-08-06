@@ -30,7 +30,7 @@ class UserController{
                     $_SESSION['id']=$userinfo['u_id'];
                     $_SESSION['name']=$userinfo['u_name'];
                     $_SESSION['avatar']=$userinfo['u_avatar'];
-                    setcookie("map-info",encryption($userinfo['u_name']).'-'.encryption($userinfo['u_password']),time()+2*7*24*3600);
+                    setcookie("map-info",encryption($userinfo['u_name']).'-'.encryption($userinfo['u_password']),time()+7*24*3600);
                      echo json_encode([
                         'code'=>2000,
                         'msg'=>'登陆成功',
@@ -107,4 +107,36 @@ class UserController{
         session_destroy();
         redirect('/user💕login');
     }
+//关联相关先关掉
+    // public function getFriendInfo(){
+    //     $data = json_decode(file_get_contents("php://input"),1);
+    //     $user = new User;
+    //     $userinfo = $user->getFriendInfo($data['name']);
+    //     if($userinfo){
+    //         echo json_encode([
+    //             'code'=>2000,
+    //             'fid'=>$userinfo['u_id'],
+    //             'avatar'=>$userinfo['u_avatar']
+    //         ]);
+    //     }else{
+    //         echo json_encode([
+    //             'code'=>4000,
+    //         ]);  
+    //     }      
+    // }
+    // public function getFriend(){
+    //     $user = new User;
+    //     $info = $user->getFriend($_SESSION['id']);
+    //     if($info){
+    //         echo json_encode([
+    //             'code'=>2000,
+    //             'info'=>$info
+    //         ]);
+    //     }else{
+    //         echo json_encode([
+    //             'code'=>4000,
+    //         ]);  
+    //     }      
+    // }
+    
 }

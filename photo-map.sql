@@ -11,7 +11,7 @@
  Target Server Version : 50723
  File Encoding         : 65001
 
- Date: 18/07/2019 18:11:39
+ Date: 06/08/2019 17:53:36
 */
 
 SET NAMES utf8mb4;
@@ -38,7 +38,22 @@ CREATE TABLE `m_files`  (
   `f_ctime` timestamp(0) NULL DEFAULT NULL COMMENT '删除时间',
   `f_video_url` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '视频文件路径',
   PRIMARY KEY (`f_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 4 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+
+-- ----------------------------
+-- Table structure for m_friend
+-- ----------------------------
+DROP TABLE IF EXISTS `m_friend`;
+CREATE TABLE `m_friend`  (
+  `f_mid` int(4) NOT NULL COMMENT '邀请人ID',
+  `f_fid` int(4) NULL DEFAULT NULL COMMENT '被邀请人ID',
+  `f_is` tinyint(4) NULL DEFAULT NULL COMMENT '是否成立；0不成立；1成立；2被拒绝',
+  `f_refuse_content` varchar(255) CHARACTER SET utf8 COLLATE utf8_general_ci NULL DEFAULT NULL COMMENT '被拒绝理由',
+  `f_ctime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '创建时间',
+  `f_gtime` datetime(0) NULL DEFAULT NULL COMMENT '同意时间',
+  `f_rtime` datetime(0) NULL DEFAULT NULL COMMENT '被拒绝时间',
+  PRIMARY KEY (`f_mid`) USING BTREE
+) ENGINE = InnoDB CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 -- ----------------------------
 -- Table structure for m_users
@@ -52,6 +67,6 @@ CREATE TABLE `m_users`  (
   `u_ctime` timestamp(0) NULL DEFAULT CURRENT_TIMESTAMP(0) COMMENT '添加时间',
   PRIMARY KEY (`u_id`) USING BTREE,
   INDEX `u_id`(`u_id`) USING BTREE
-) ENGINE = InnoDB AUTO_INCREMENT = 2 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
+) ENGINE = InnoDB AUTO_INCREMENT = 3 CHARACTER SET = utf8 COLLATE = utf8_general_ci ROW_FORMAT = Dynamic;
 
 SET FOREIGN_KEY_CHECKS = 1;

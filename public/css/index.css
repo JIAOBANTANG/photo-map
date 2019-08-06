@@ -12,8 +12,8 @@
     height: 60px;
     position: fixed;
     background-color: transparent;
-    top: 1vw;
-    right: 6vh;
+    top: 8px;
+    left: 28px;
     z-index: 2;
 }
 .layui-nav-item {
@@ -22,9 +22,11 @@
     box-shadow: 0 0 9px #868686;
 }
 .layui-nav-item img {
-    border-radius: 5px;
+    border-radius: 8px;
     width: 45px;
     height: 45px;
+    margin-top: -3px;
+    margin-left: -9px;
     /* box-shadow: 0 0 9px #868686; */
 }
 .layui-nav-bar {
@@ -66,7 +68,12 @@ text-overflow:ellipsis;
 white-space: nowrap;
 }
 .gaode-url{
-    font-weight: bold;font-family: helvetica;text-align:center;background: -webkit-linear-gradient(left,skyblue ,hotpink); -webkit-background-clip: text; -webkit-text-fill-color: transparent;#23966c, #faaa54, #e23b4a, #db0768, #360670
+    font-weight: bold;
+    font-family: helvetica;
+    text-align:center;
+    background: -webkit-linear-gradient(left,skyblue ,hotpink);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;#23966c, #faaa54, #e23b4a, #db0768, #360670
 }
 .layui-input{
     margin: 10px 0 10px 0;
@@ -102,12 +109,33 @@ white-space: nowrap;
     border-radius: 20px !important; 
 }
 .class-uploads{
-    border-radius: 20px !important; 
+    border-radius: 20px !important;
 }
 .class-uploads .layui-layer-content{
     padding: 20px !important;
     border-radius: 0 0 20px 20px !important; 
 }
+
+
+.class-friend{
+  border-radius: 20px !important;
+  /* background-image: url(../images/friend.png) !important; */
+  background-size: cover;
+
+}
+.class-friend .layui-layer-title{
+  /* background-color:transparent; */
+  /* background-color:rgba(255, 255, 255, 0.788); */
+  /* color:#fff; */
+}
+
+.class-friend .layui-layer-content{
+  height: 558px !important;
+  /* background-color:rgba(255, 255, 255, 0.788); */
+  padding:0 20px !important;
+  border-radius: 0 0 20px 20px !important; 
+}
+
 .class-miaoShu{
     border-radius: 20px !important; 
 }
@@ -123,4 +151,158 @@ white-space: nowrap;
 }
 #testListAction{
     color: #015069;
+}
+
+.icon {
+    position: fixed;
+    top: 60px;
+    left: -7px;
+    width: 60px;
+    height: 60px;
+    display: inline-block;
+  }
+  .icon:hover{
+    
+  }
+  svg #heart {
+    fill: rgb(247, 176, 176);
+    -webkit-transform: scale(1);
+            transform: scale(1);
+    -webkit-transform-origin: center center;
+            transform-origin: center center;
+    -webkit-animation: object 1.5s linear infinite;
+            animation: object 1.5s linear infinite;
+  }
+  
+  svg #heart:hover{
+    fill:red;
+    cursor: pointer;
+    -webkit-animation: object 0.8s linear infinite;
+    animation: object 0.8s linear infinite;
+  
+  }
+  /* Mixins ------------------------------------------- */
+  /* Animations ---------------------------------------- */
+  @-webkit-keyframes object {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    14% {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    28% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    42% {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    70% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+  @keyframes object {
+    0% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    14% {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    28% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+    42% {
+      -webkit-transform: scale(1.3);
+      transform: scale(1.3);
+    }
+    70% {
+      -webkit-transform: scale(1);
+      transform: scale(1);
+    }
+  }
+
+  .my {
+    text-align: center;
+    margin-top: 40px;
+  }
+  .my img {
+    width: 100px;
+    border-radius: 12%;
+    box-shadow: 1px 1px 5px #ddd;
+  }
+  .my img:first-child {
+    width: 100px;
+    border-radius: 50px;
+    box-shadow: 1px 1px 5px #ddd;
+  }
+  .find {
+    overflow: hidden;
+  }
+  .you {
+    margin-top: 20px;
+    float: left;
+    text-align: center;
+  }
+  .you input[name='you'] {
+    margin: 20px 0 0 20px;
+    font-size: 25px;
+    color:pink;
+    width: 300px;
+    height: 40px;
+    border:none;
+  }
+  .btn{
+    margin-top: 150px;
+    text-align: center;
+  }
+  .btn a{
+    /* display:block; */
+    padding: 10px 20px ;
+    background-image:linear-gradient(30deg,skyblue,pink);
+    color: #fff;
+    border-radius: 7px;
+    text-decoration:none;
+  }
+  .btn a:hover{
+    box-shadow: 0px 0px 15px #ccc;
+  }
+  .wenzi {
+text-align:center;
+display: flex;
+float: left;
+}
+.wenzi div
+{
+opacity:0.6;
+color:white;
+font-size: 70px;
+text-shadow:1px 1px 5px #dddddd,2px 2px 5px #ffffff,3px 3px 5px #ffffff,4px 4px 5px #ffffff,5px 5px 5px #ffffff,6px 6px 5px #adadad,7px 7px 5px #adadad,8px 8px 5px #adadad,9px 9px 5px #adadad,10px 10px 5px #adadad,11px 11px 5px ,12px 12px 5px ;
+transition:opacity 500ms linear,text-shadow 500ms ease-in-out,color 300ms linear;
+}
+.wenzi div:hover
+{
+opacity:0.8;
+text-shadow:1px 1px #454545;
+color:pink;
+text-shadow:0px 0px 20px #000000;
+animation:myanim 100ms infinite linear;
+}
+.wenzi div:active
+{
+opacity:0.8;
+text-shadow:1px 1px 5px #000000,2px 2px 5px #000000,3px 3px 5px #000000,4px 4px 5px #000000,5px 5px 5px #000000,6px 6px 50px #000000,7px 7px 5px #000000,8px 8px 5px #000000,9px 9px 5px #000000,10px 10px 5px #000000,11px 11px 5px #000000,12px 12px 5px #000000,13px 13px 5px #000000,14px 14px 5px #000000,15px 15px 5px #000000,16px 16px 5px #000000,16px 16px 5px #000000,17px 17px 5px #000000,18px 18px 5px #000000,19px 19px 5px #000000; 
+}
+@keyframes myanim 
+{
+10%{transform:scale(1)rotate(0deg);}
+20%{transform:scale(1)rotate(-3deg);}
+80%{transform:scale(1)rotate(3deg);}
+100%{transform:scale(1)rotate(0deg);}
 }

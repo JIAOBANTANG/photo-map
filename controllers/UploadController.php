@@ -143,8 +143,20 @@ class UploadController{
         }
     }
     public function login(){
-
     }
+    //上传视频
+    // public function upVideo(){
+    //     $file = $_FILES['file'];
+    //     dd($file);
+    //     @$lngAndLat = $_POST['lng-and-lat'];
+    //     @$time = $_POST['time'];
+    //     $img = $file['tmp_name'];
+    //     $saveDir = UPURL.'temp/'.$file['name'];
+    //     $isTemp = move_uploaded_file($img,$saveDir);
+    //     @$exif = exif_read_data($saveDir,'IFD0',false);
+    //     dd($exif);
+
+    // }
 }
 
 
