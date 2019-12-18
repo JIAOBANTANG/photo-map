@@ -8,11 +8,11 @@
     height: 200px;
 }
 .layui-nav {
-    width: 220px;
+    /* width: 220px; */
     height: 60px;
     position: fixed;
     background-color: transparent;
-    top: 8px;
+    top: -9px;
     left: 28px;
     z-index: 2;
 }
@@ -111,6 +111,13 @@ white-space: nowrap;
 .class-uploads{
     border-radius: 20px !important;
 }
+/* 
+@media screen and (max-width: 300px){
+
+  .class-uploads{
+    width: 100px !important;
+}
+} */
 .class-uploads .layui-layer-content{
     padding: 20px !important;
     border-radius: 0 0 20px 20px !important; 
@@ -151,6 +158,10 @@ white-space: nowrap;
 }
 #testListAction{
     color: #015069;
+}
+
+.mianshutext{
+  color: #ff9e9e;
 }
 
 .icon {
@@ -232,14 +243,18 @@ white-space: nowrap;
     text-align: center;
     margin-top: 40px;
   }
+  .my span{
+    font-size: 55px;
+  }
   .my img {
-    width: 100px;
+    width: 200px;
     border-radius: 12%;
     box-shadow: 1px 1px 5px #ddd;
+    margin-bottom: 10px;
   }
   .my img:first-child {
-    width: 100px;
-    border-radius: 50px;
+    width: 200px;
+    border-radius: 50%;
     box-shadow: 1px 1px 5px #ddd;
   }
   .find {
@@ -259,7 +274,7 @@ white-space: nowrap;
     border:none;
   }
   .btn{
-    margin-top: 150px;
+    margin-top: 80px;
     text-align: center;
   }
   .btn a{

@@ -1,27 +1,41 @@
 <?php
 namespace models;
 class User extends Base{
-    public function findName($name){
-    $sql = "SELECT u_id FROM `m_users` WHERE u_name ='$name'";
-    $stmt = self::$pdo->query($sql);    
-    $data = $stmt->fetch(\PDO::FETCH_NUM);
-    return $data;
+    public function find($qq){
+        $sql = "SELECT u_qq FROM `m_users` WHERE u_qq ='$qq'";
+        $stmt = self::$pdo->query($sql);
+        $data = $stmt->fetch(\PDO::FETCH_NUM);
+        return $data;
     }
 
-    public function insert($sql,$data){
-        $data = explode(',',$data);
+    public function insert($data){
+        $sql = "INSERT INTO m_users(u_qq,u_password,u_google_auth,u_name,u_avatar,u_email,u_code) VALUES(?,?,?,?,?,?,?)";
+        $inser_data = [];
+        foreach ($data as $v){
+            $inser_data[]=$v;
+        }
         $stmt = self::$pdo->prepare($sql);
-        $ret = $stmt->execute($data);
+        $ret = $stmt->execute($inser_data);
         return $ret;
      }
-     public function getUserInfo($name){
-        $sql = "SELECT * FROM `m_users` WHERE u_name ='$name'";
+
+     public function getUserInfo($qq,$password){
+        $sql = "SELECT * FROM `m_users` WHERE u_qq ='$qq' and u_password = '$password'";
         $stmt = self::$pdo->query($sql);    
         $data = $stmt->fetch(\PDO::FETCH_ASSOC );
         return $data;
      }
-     public function CookiegetUserInfo($name,$password){
-      $sql = "SELECT * FROM `m_users` WHERE u_name ='$name' AND u_password ='$password' ";
+
+
+    public function getLoveInfo($id){
+        $sql = "SELECT * FROM `m_users` WHERE u_id ='$id' ";
+        $stmt = self::$pdo->query($sql);
+        $data = $stmt->fetch(\PDO::FETCH_ASSOC );
+        return $data;
+    }
+
+     public function CookiegetUserInfo($qq,$password){
+      $sql = "SELECT * FROM `m_users` WHERE u_qq ='$qq' AND u_password ='$password' ";
       $stmt = self::$pdo->query($sql);    
       $data = $stmt->fetch(\PDO::FETCH_ASSOC );
       return $data;
@@ -40,4 +54,22 @@ class User extends Base{
    //    ];
    //    return $info;
    // }
+    public function getLoveId($id){
+        return self::$pdo->query("SELECT u_love_uid FROM `m_users` WHERE u_id = '$id' ")->fetch()['u_love_uid'];
+    }
+
+    public function getCodeInfo($code){
+        $sql = "SELECT * FROM `m_users` WHERE u_code ='$code'";
+        $stmt = self::$pdo->query($sql);    
+        $data = $stmt->fetch(\PDO::FETCH_ASSOC );
+        return $data;
+    }
+
+    public function bindLove($my_id,$love_to_id,$love_to_code,$love_to_time){
+        $sql = "UPDATE m_users SET u_love_code= '$love_to_code',u_love_uid = '$love_to_id',u_love_time='$love_to_time' WHERE u_id= $my_id";
+        $sta = self::$pdo->exec($sql);
+        return $sta;
+    }
+
+    //修改关联信息
 }

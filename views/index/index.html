@@ -4,7 +4,7 @@
 <head>
 	<title><?php  echo $_SESSION['name']?> | 与足迹与生活定格</title>
 	<meta charset="utf-8" />
-	<!-- <meta name="viewport" content="width=device-width, initial-scale=1" /> -->
+	<meta name="viewport" content="width=device-width, initial-scale=1" />
 	<!-- <meta property="og:image" content="route.png" /> -->
 	<link rel="icon" href="/images/favicon.ico" type="image/x-icon" />
 	<link rel="shortcut icon" href="/images/favicon.ico" type="image/x-icon" />
@@ -19,6 +19,10 @@
 
 <body>
 	<ul class="layui-nav">
+		<img src="" alt="" style="border-radius: 50%;">
+		<div style="padding:10px">
+
+		</div>
 		<li class="layui-nav-item">
 			<a href="javascript:;"><img src="<?php  echo $_SESSION['avatar']?>" class="layui-nav-img">
 				<span class="name">
@@ -37,7 +41,6 @@
 						&nbsp;添加视频
 					</a>
 				</dd> -->
-				<!-- <dd><a href="javascript:;">安全管理</a></dd> -->
 				<dd><a href="/user💕out">退了(•̀⌓•́)</a></dd>
 			</dl>
 		</li>
@@ -66,8 +69,11 @@
 	<script src="/js/viewer/viewer.min.js"></script>
 	<script>
 		var avatar = "<?php  echo $_SESSION['avatar']?>";
+		var name = "<?php  echo $_SESSION['name']?>";
 		// var fid = <?//php  echo $fid?>;
+		var love_code = "<?php  echo $_SESSION['love_code']?>"
 		var data = <?php echo $files ?>;
+		var love_data = "<?php echo $love_data ?>";
 	</script>
 	<script src="/js/index.js"></script>
 </body>

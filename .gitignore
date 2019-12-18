@@ -1,1 +1,6 @@
 /config.php
+.idea
+public/temp/
+public/photos/
+vendor
+composer.lock

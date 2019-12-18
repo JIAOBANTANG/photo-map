@@ -4,35 +4,35 @@ layui.use(['form', 'layedit', 'laydate'], function() {
         //自定义验证规则
 
     form.verify({
-        name: function(value) {
-            if (value.length < 4) {
-                return '昵称不能少于4个字符';
+        qq: function(value) {
+            if (value.length < 5) {
+                return 'QQ号最短是5位哦◉‿◉ ';
             }
-            if (value.length > 16) {
-                return '昵称不能多于16个字符';
+            if(!/^[0-9]*$/.test(value)){
+                return 'QQ号是数字呢◉‿◉ ';
             }
-
-            if (escape(value).indexOf("%u") != -1) {
-                return '昵称不能包含中文字符';
+        },
+        google_auth: function(value) {
+            if (value.length !=6) {
+                return 'google验证码是6位哦( •́ .̫ •̀ )';
             }
         },
         pass: [
-            /^[\S]{6,16}$/, '密码必须6到16位，且不能出现空格'
-        ]
+            /^[\S]{6,16}$/, '密码是6到16位，且不能出现空格ʕ ᵔᴥᵔ ʔ'
+        ],
     });
     //监听提交
     form.on('submit(register)', function(data) {
-        // console.log(data.field)
         data = data.field;
-        console.log(data)
         axios.post('/user💕doregister', {
-                username: data.username,
+                qq: data.qq,
                 password: data.password,
-                code: data.code
-
+                google_auth:data.google_auth,
+                code: data.code,
+                secret:data.secret
             })
             .then(function(response) {
-                if (response.data.code == 2000) { //上传成功
+                if (response.data.code == 200) {
                     layer.msg(response.data.msg + '要牢记你的用户名和密码哦', { icon: 1, anim: 1 }, function() {
                         window.location.href = "/user💕login"
                     });

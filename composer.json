@@ -1,0 +1,17 @@
+{
+    "name": "jiaobantang/photo-map",
+    "description": "A map album of Web site",
+    "type": "project",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "jiaobantang",
+            "email": "jiaobantang@gmail.com"
+        }
+    ],
+    "minimum-stability": "stable",
+    "require": {
+        "vectorface/googleauthenticator": "^1.0",
+        "rosell-dk/webp-convert": "^2.3"
+    }
+}

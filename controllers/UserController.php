@@ -1,142 +1,127 @@
 <?php
 namespace controllers;
+
 use models\User;
-class UserController{
-    public function login(){
-        // echo "hahah";
-    
+use libs\Helper;
+use Vectorface\GoogleAuthenticator;
+
+class UserController extends Controller
+{
+    public function login()
+    {
         $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
         view('index.login',[
-            'bgimg'=>$bgimg
-        ]);
-        // $sql = new Base;
-    }
-    public function register(){
-        $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
-        view('index.register',[
-            'bgimg'=>$bgimg
+            'bgimg'=>$bgimg,
         ]);
     }
-    public function dologin(){
-        $data = json_decode(file_get_contents("php://input"),1);
-        if($data['username'] && $data['password']){
-            $user = new User;
-            $userinfo = $user->getUserInfo($data['username']);
-            if($userinfo){
-                // var_dump($userinfo);
-                // var_dump(encryption($data['password']));
-                //     dd($userinfo['u_password']);
-                if(encryption($data['password'])==$userinfo['u_password']){
-                    $_SESSION['id']=$userinfo['u_id'];
-                    $_SESSION['name']=$userinfo['u_name'];
-                    $_SESSION['avatar']=$userinfo['u_avatar'];
-                    setcookie("map-info",encryption($userinfo['u_name']).'-'.encryption($userinfo['u_password']),time()+7*24*3600);
-                     echo json_encode([
-                        'code'=>2000,
-                        'msg'=>'登陆成功',
-                    ]);  
-                    // $in_data = $data['username'].",/images/avatar/Fruit-".mt_rand(1,10).".png,'".encryption($data['password']);
-                    // $sql = "INSERT INTO m_users(u_name,u_avatar,u_password) VALUES(?,?,?)";
-                    // $is_id = $user->insert($sql,$in_data);
-                    // if($is_id){
-                    //     echo json_encode([
-                    //         'code'=>2000,
-                    //         'msg'=>'注册成功',
-                    //     ]);  
-                    // }
-                    // dd('密码对了');
 
-                }else{
-                    echo json_encode([
-                        'code'=>4007,
-                        'msg'=>'密码错误',
-                    ]);  
-                }
-            
-            }else{
-                echo json_encode([
-                    'code'=>4006,
-                    'msg'=>'该用户不存在',
-                ]); 
-            }
-        }else{
-            echo json_encode([
-                'code'=>4005,
-                'msg'=>'非法操作，已记录在册',
-            ]); 
+    public function register()
+    {
+
+        if(!config('reg_switch')){
+            return view('close.index');
         }
+        $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
+        $ga = new GoogleAuthenticator();
+        $secret = $ga->createSecret();
+        $qr = $ga->getQRCodeUrl('photo-map', $secret);
+        view('index.register',[
+            'bgimg'=>$bgimg,
+            'qr'=>$qr,
+            'secret'=>$secret
+        ]);
     }
-    public function doregister(){
-        $data = json_decode(file_get_contents("php://input"),1);
-        if($data['username'] && $data['password'] && $data['code']){
+
+    public function dologin()
+    {
+        $data = $this->request();
+        if($data['qq'] && $data['password'] && $data['google_auth']){
             $user = new User;
-            $is_id = $user->findName($data['username']);
-            if($is_id){
-                echo json_encode([
-                    'code'=>4002,
-                    'msg'=>'用户名已存在',
-                ]);  
-            }else{
-                // dd(encryption($data['code'],1));
-                if(encryption($data['code'],1)==config('encryption_value')){
-                    $in_data = $data['username'].",/images/avatar/Fruit-".mt_rand(1,10).".png,".encryption($data['password']);
-                    $sql = "INSERT INTO m_users(u_name,u_avatar,u_password) VALUES(?,?,?)";
-                    $is_id = $user->insert($sql,$in_data);
-                    if($is_id){
-                        echo json_encode([
-                            'code'=>2000,
-                            'msg'=>'注册成功',
-                        ]);
-                    }
-                }else{
-                    echo json_encode([
-                        'code'=>4003,
-                        'msg'=>'邀请码错误或不存在',
-                    ]);  
+            $user_info = $user->getUserInfo($data['qq'],encryption($data['password']));
+            if($user_info){
+                $ga = new GoogleAuthenticator();
+                $check = $ga->verifyCode($user_info['u_google_auth'], $data['google_auth'], 1);
+                if(!$check){
+                    return $this->response('google验证码不正确或已失效',401);
                 }
+                setcookie("map-info",encryption($user_info['u_qq']).'-'.encryption($user_info['u_password']),time()+7*24*3600);
+                return $this->response('登录成功',200);
+            }else{
+                return $this->response('qq号或密码错误',401);
             }
         }else{
-            echo json_encode([
-                'code'=>4005,
-                'msg'=>'非法操作，已记录在册',
-            ]); 
+            return $this->response('缺少参数',401);
         }
     }
-    public function out(){
+
+    public function doregister()
+    {
+        if(!config('reg_switch')){
+            return $this->response('很抱歉-地图相册现已关闭注册',500);
+        }
+        $data = $this->request();
+        $ga = new GoogleAuthenticator();
+        $check = $ga->verifyCode($data['secret'], $data['google_auth'], 1);
+        if(!$check){
+           return $this->response('google验证码不正确或已失效',401);
+        }
+        $user_model = new User();
+        $qq = $user_model->find($data['qq']);
+        if($qq){
+            return $this->response('此用户已存在',401);
+        }
+        $encryption = config('encryption_value_code');
+        if($data['code'] !== $encryption) {
+            return $this->response('邀请码错误', 401);
+        }
+        $qq_info= Helper::getQQInfo($data['qq']);
+        $data['name']=$qq_info['name'];
+        $data['avatar']=$qq_info['avatar'];
+        $data['email']=$qq_info['email'];
+        $data['password']=encryption($data['password']);
+        $data['love']='love'.encryption(($data['qq']));
+        unset($data['google_auth']);
+        unset($data['code']);
+        $res = $user_model->insert($data);
+        if($res){
+            return $this->response('注册成功',200);
+        }else{
+            return $this->response('服务器内部错误',500);
+        }
+    }
+
+    public function out()
+    {
         setcookie('map-info', NULL);
         session_destroy();
         redirect('/user💕login');
     }
-//关联相关先关掉
-    // public function getFriendInfo(){
-    //     $data = json_decode(file_get_contents("php://input"),1);
-    //     $user = new User;
-    //     $userinfo = $user->getFriendInfo($data['name']);
-    //     if($userinfo){
-    //         echo json_encode([
-    //             'code'=>2000,
-    //             'fid'=>$userinfo['u_id'],
-    //             'avatar'=>$userinfo['u_avatar']
-    //         ]);
-    //     }else{
-    //         echo json_encode([
-    //             'code'=>4000,
-    //         ]);  
-    //     }      
-    // }
-    // public function getFriend(){
-    //     $user = new User;
-    //     $info = $user->getFriend($_SESSION['id']);
-    //     if($info){
-    //         echo json_encode([
-    //             'code'=>2000,
-    //             'info'=>$info
-    //         ]);
-    //     }else{
-    //         echo json_encode([
-    //             'code'=>4000,
-    //         ]);  
-    //     }      
-    // }
-    
+
+    public function bind()
+    {
+        $data = $this->request();
+        $user = new User;
+        $my_info = $user->getCodeInfo($data['my_code']);
+        $to_info = $user->getCodeInfo($data['to_code']);
+        if($my_info && $to_info){
+            if(!$my_info['u_love_uid']==0 ||!$to_info['u_love_uid']==0){
+                return $this->response('你们两个好像其中一个有关联关系哦',400);
+            }
+            $time = date('Y-m-d H:i:s');
+            $res1 = $user->bindLove($my_info['u_id'],$to_info['u_id'],$data['to_code'],$time);
+            if($res1){
+                $res2 = $user->bindLove($to_info['u_id'],$my_info['u_id'],$data['my_code'],$time);
+                if($res2){
+                    return $this->response('关联成功',200);
+                }else{
+                    return $this->response('数据库好像出问题了',500);
+                }
+            }else{
+                return $this->response('数据库好像出问题了',500);
+                
+            }
+        }else{
+            return $this->response('请求数据好像出了问题呢',400);
+        }    
+    }
 }

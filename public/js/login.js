@@ -1,19 +1,19 @@
 layui.use(['form', 'layedit', 'laydate'], function() {
     var form = layui.form,
         layer = layui.layer
-        //自定义验证规则
-
+    //自定义验证规则
     form.verify({
-        name: function(value) {
-            if (value.length < 4) {
-                return '昵称不能少于4个字符';
+        qq: function(value) {
+            if (value.length < 5) {
+                return 'QQ号最短是5位哦´•ﻌ•`';
             }
-            if (value.length > 16) {
-                return '昵称不能多于16个字符';
+            if(!/^[0-9]*$/.test(value)){
+                return 'QQ号是数字呢´•ﻌ•`';
             }
-
-            if (escape(value).indexOf("%u") != -1) {
-                return '昵称不能包含中文字符';
+        },
+        google_auth: function(value) {
+            if (value.length !=6) {
+                return 'google验证码是6位哦( •́ .̫ •̀ )';
             }
         },
         pass: [
@@ -24,11 +24,12 @@ layui.use(['form', 'layedit', 'laydate'], function() {
     form.on('submit(login)', function(data) {
         data = data.field;
         axios.post('/user💕dologin', {
-                username: data.username,
+                qq: data.qq,
                 password: data.password,
+                google_auth:data.google_auth
             })
             .then(function(response) {
-                if (response.data.code == 2000) { //上传成功
+                if (response.data.code == 200) {
                     layer.msg(response.data.msg, { icon: 1, anim: 1 }, function() {
                         window.location.href = "/index💕index"
                     });
