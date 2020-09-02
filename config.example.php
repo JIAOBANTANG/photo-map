@@ -12,6 +12,8 @@ return [
         'host'=>'127.0.0.1',
         'port'=>6379
     ],
+    //调试模式
+    'debug'=>true,
     //高德地图webKey
     'map-key'=>'',
     //邀请码明文,自行填入

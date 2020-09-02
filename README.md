@@ -1,8 +1,8 @@
 ## Photo-Map
 ### 一款Web站点的地图相册
-![](./public/readme1.png)
-![](./public/readme2.png)
-![](./public/readme3.png)
+![readme1.png](https://i.loli.net/2020/08/26/M5N4iEhBZKI6CLJ.png)
+![readme2.png](https://i.loli.net/2020/08/26/iNDzoweEOSn3CcU.png)
+![readme3.png](https://i.loli.net/2020/08/26/Z8y32xXw9aWl1sI.png)
 **灵感来源于:iphone的地图相册**<br>
 **脑袋想的是:记录足迹，服务生活**<br>
 ### 感谢

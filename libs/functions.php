@@ -7,6 +7,7 @@ function view($file,$data=[]){
         extract($data);
     }
     include(ROOT.'views/'.str_replace('.','/',$file).'.html');
+    die;
 }
 
 //配置信息函数
@@ -117,4 +118,51 @@ function suolue($filename,$savePath){
     imagejpeg($new,$savePath);
     imagedestroy($new);
     imagedestroy($img);
+}
+
+
+//照片数据处理函数
+function photoMap($data,$rows){
+    $files = [
+        "rows" => $data,
+        'time' => 0.03,
+        "fields" => [
+            "lat" => [
+                "type" => "number"
+            ],
+            "lng" => [
+                "type" => "number"
+            ],
+            "thumbnail" => [
+                "type" => "string"
+            ],
+            "nodes" => [
+                "type" => "string"
+            ],
+            "url" => [
+                "type" => "string"
+            ],
+            "video" => [
+                "type" => "string"
+            ],
+            "caption" => [
+                "type" => "string"
+            ],
+            "name" => [
+                "type" => "string"
+            ],
+            "avatar" => [
+                "type" => "string"
+            ]
+        ],
+        "total_rows" => $rows
+    ];
+    return json_encode($files);
+}
+
+//记录日志
+function dailyLog($log){
+    $log_file = ROOT . "runtime/logs/" . date('Y-m-d') . ".log";
+    $log_data = sprintf('[%s] %s' . PHP_EOL, date('Y-m-d H:i:s'), json_encode($log));
+    file_put_contents($log_file, $log_data,FILE_APPEND);
 }

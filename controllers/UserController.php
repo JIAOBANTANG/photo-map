@@ -3,10 +3,12 @@ namespace controllers;
 
 use models\User;
 use libs\Helper;
+use traits\HttpTrait;
 use Vectorface\GoogleAuthenticator;
 
-class UserController extends Controller
+class UserController
 {
+    use HttpTrait;
     public function login()
     {
         $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
@@ -17,9 +19,10 @@ class UserController extends Controller
 
     public function register()
     {
-
         if(!config('reg_switch')){
-            return view('close.index');
+            view('close.index',[
+                'str'=>'很抱歉，地图相册现已关闭注册'
+            ]);
         }
         $bgimg = '/images/bgimg/'.mt_rand(1,10).'.jpg';
         $ga = new GoogleAuthenticator();
@@ -103,25 +106,12 @@ class UserController extends Controller
         $user = new User;
         $my_info = $user->getCodeInfo($data['my_code']);
         $to_info = $user->getCodeInfo($data['to_code']);
-        if($my_info && $to_info){
-            if(!$my_info['u_love_uid']==0 ||!$to_info['u_love_uid']==0){
-                return $this->response('你们两个好像其中一个有关联关系哦',400);
-            }
-            $time = date('Y-m-d H:i:s');
-            $res1 = $user->bindLove($my_info['u_id'],$to_info['u_id'],$data['to_code'],$time);
-            if($res1){
-                $res2 = $user->bindLove($to_info['u_id'],$my_info['u_id'],$data['my_code'],$time);
-                if($res2){
-                    return $this->response('关联成功',200);
-                }else{
-                    return $this->response('数据库好像出问题了',500);
-                }
-            }else{
-                return $this->response('数据库好像出问题了',500);
-                
-            }
-        }else{
-            return $this->response('请求数据好像出了问题呢',400);
-        }    
+        if(!$my_info['u_love_uid']==0 ||!$to_info['u_love_uid']==0){
+            $this->response('你们两个好像其中一个有关联关系哦',400);
+        }
+        $time = date('Y-m-d H:i:s');
+        $user->bindLove($my_info['u_id'],$to_info['u_id'],$data['to_code'],$time);
+        $user->bindLove($to_info['u_id'],$my_info['u_id'],$data['my_code'],$time);
+        $this->response('关联成功',200);
     }
 }

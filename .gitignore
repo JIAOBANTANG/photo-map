@@ -4,3 +4,4 @@ public/temp/
 public/photos/
 vendor
 composer.lock
+runtime/logs/*.log
