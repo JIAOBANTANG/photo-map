@@ -15,5 +15,10 @@
     "rosell-dk/webp-convert": "^2.3",
     "ext-json": "*",
     "ext-pdo": "*"
+  },
+  "autoload": {
+    "files": [
+      "libs/functions.php"
+    ]
   }
 }

@@ -166,3 +166,42 @@ function dailyLog($log){
     $log_data = sprintf('[%s] %s' . PHP_EOL, date('Y-m-d H:i:s'), json_encode($log));
     file_put_contents($log_file, $log_data,FILE_APPEND);
 }
+
+
+function handleErorr($error_level, $error_message, $error_file,$error_line,$error_context)
+{
+    $debug = [
+        'file' => $error_file,
+        'message' => $error_message,
+        'line' => $error_line,
+        'trace' => $error_context,
+    ];
+    $debug = json_encode($debug);
+    dailyLog($debug);
+    if (config('debug')) {
+        exit($debug);
+    } else {
+        view('close.index', [
+            'str' => '貌似出了点小问题'
+        ]);
+    }
+}
+
+function handleException(Throwable $e)
+{
+    $debug = [
+        'file' => $e->getFile(),
+        'message' => $e->getMessage(),
+        'line' => $e->getLine(),
+        'trace' => $e->getTrace(),
+    ];
+    $debug = json_encode($debug);
+    dailyLog($debug);
+    if (config('debug')) {
+        exit($debug);
+    } else {
+        view('close.index', [
+            'str' => '貌似出了点小问题'
+        ]);
+    }
+}

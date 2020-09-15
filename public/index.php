@@ -3,12 +3,8 @@ session_start();
 define('ROOT', __DIR__ . '/../');
 define('UPURL', __DIR__ . '/');
 require_once ROOT . 'vendor/autoload.php';
-require(ROOT . 'libs/functions.php');
-function autoLoadClass($class)
-{
-    include(ROOT . str_replace('\\', '/', $class) . '.php');
-}
-spl_autoload_register('autoLoadClass');
+set_exception_handler('handleException');
+set_error_handler('handleErorr');
 $server_ext = '%F0%9F%92%95';
 $server_path_item = 2;
 if (strstr(PHP_OS, 'WIN')) {
@@ -25,24 +21,6 @@ if (empty($_SERVER['PATH_INFO'])) {
     $controller = ucfirst($path[0] . 'Controller');
     $action = $path[1];
 }
-try {
-    $controller = 'controllers\\' . $controller;
-    $C = new $controller;
-    $C->$action();
-} catch (\Exception $e) {
-    $debug = [
-        'file' => $e->getFile(),
-        'message' => $e->getMessage(),
-        'line' => $e->getLine(),
-        'trace' => $e->getTrace(),
-    ];
-    $debug = json_encode($debug);
-    dailyLog($debug);
-    if (config('debug')) {
-        exit($debug);
-    } else {
-        view('close.index', [
-            'str' => '貌似出了点小问题'
-        ]);
-    }
-}
+$controller = 'controllers\\' . $controller;
+$C = new $controller;
+$C->$action();
